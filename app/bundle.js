@@ -499,11 +499,14 @@ async function initDriveAuth() {
 }
 
 async function signInGoogle() {
-  const got = await requestToken('consent');
+  /* '' (et non 'consent') : Google ne réaffiche l'écran d'autorisation que la
+     toute première fois (ou si l'accès a été révoqué) ; les connexions
+     suivantes ne demandent plus qu'un tap pour choisir le compte. */
+  const got = await requestToken('');
   if (got) { await afterSignIn(); } else { scheduleRender(); }
 }
 async function reconnectGoogle() {
-  const got = await requestToken('consent');
+  const got = await requestToken('');
   if (got) { drive.hold = true; await reconcileDrive(false); drive.hold = false; }
   scheduleRender();
 }
