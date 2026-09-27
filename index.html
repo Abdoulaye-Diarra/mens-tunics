@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Boutique Men's Tunics</title>
+<meta name="description" content="Catalogue de tuniques sur mesure — commandez directement sur WhatsApp.">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Figtree:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap">
+<meta name="theme-color" content="#15120B">
+<style>
+:root{
+  --bg:#F7F4EC; --surface:#FFFFFF; --surface-2:#F5F0E4; --ink:#211C11; --ink-2:#5C5240; --ink-3:#8C8264;
+  --line:#E9E1CE; --line-2:#DACDA9;
+  --dark:#15120B; --dark-2:#1E1811; --dark-ink:#B9AA8C; --dark-strong:#FFFFFF;
+  --accent:#A9791E; --accent-hover:#8F6417; --on-accent:#231703; --accent-soft:#F1E4C6; --gold:#D9AE4E;
+  --good-bg:#E5F4E5; --good-ink:#116b11;
+  --wa:#25D366; --wa-ink:#0b3d17;
+  --shadow:0 1px 2px rgba(33,28,17,.07),0 16px 40px rgba(33,28,17,.14);
+  --shadow-lg:0 8px 24px rgba(33,28,17,.12),0 28px 64px rgba(33,28,17,.18);
+  --scrim:rgba(21,18,11,.55);
+  --mono:"DM Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --serif:"Playfair Display",Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#14110A; --surface:#1E1910; --surface-2:#261F13; --ink:#F5EFDF; --ink-2:#C9BEA0; --ink-3:#948A6A;
+    --line:#342B18; --line-2:#453A20; --dark-2:#0E0B06;
+    --accent:#D9AE4E; --accent-hover:#E6BE66; --on-accent:#241703; --accent-soft:rgba(217,174,78,.16);
+    --good-bg:rgba(17,163,17,.18); --good-ink:#7fdc7f;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px rgba(0,0,0,.5);
+    --shadow-lg:0 8px 24px rgba(0,0,0,.45),0 32px 72px rgba(0,0,0,.6);
+    --scrim:rgba(4,3,1,.66);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14110A; --surface:#1E1910; --surface-2:#261F13; --ink:#F5EFDF; --ink-2:#C9BEA0; --ink-3:#948A6A;
+  --line:#342B18; --line-2:#453A20; --dark-2:#0E0B06;
+  --accent:#D9AE4E; --accent-hover:#E6BE66; --on-accent:#241703; --accent-soft:rgba(217,174,78,.16);
+  --good-bg:rgba(17,163,17,.18); --good-ink:#7fdc7f;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px rgba(0,0,0,.5);
+  --shadow-lg:0 8px 24px rgba(0,0,0,.45),0 32px 72px rgba(0,0,0,.6);
+  --scrim:rgba(4,3,1,.66);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.6 "Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;position:relative}
+h1,h2,h3{font-family:var(--serif);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+em{font-style:italic;color:var(--accent-hover)}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit;cursor:pointer;color:inherit}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+::selection{background:var(--accent);color:var(--on-accent)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* fine paper grain, very subtle, over the whole page */
+body::before{
+  content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.wrap{max-width:1100px;margin:0 auto;padding-inline:20px;position:relative;z-index:2}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,.8,.3,1),transform .7s cubic-bezier(.16,.8,.3,1)}
+.reveal.is-visible{opacity:1;transform:none}
+.reveal-stagger.is-visible>*{transition-delay:calc(var(--i,0) * 70ms)}
+
+/* ---------- header ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand img{width:40px;height:40px;border-radius:11px;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.brand b{display:block;font-family:var(--serif);font-size:17px;font-weight:700}
+.brand small{display:block;font-size:10.5px;color:var(--ink-2);letter-spacing:.09em;text-transform:uppercase}
+.btn-wa{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;border:0;background:var(--wa);color:#04220e;font-weight:700;font-size:13.5px;white-space:nowrap;box-shadow:0 6px 18px rgba(37,211,102,.35);transition:transform .18s,box-shadow .18s}
+.btn-wa:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(37,211,102,.42)}
+.btn-wa:active{transform:translateY(0)}
+.btn-wa svg{width:18px;height:18px;flex:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:64px 0 52px;overflow:hidden;background:radial-gradient(ellipse 900px 500px at 88% -12%,var(--accent-soft),transparent 60%)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:44px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-hover);margin-bottom:18px}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--accent-hover)}
+.hero h1{font-size:44px;font-weight:700;line-height:1.09}
+.hero p.lede{margin-top:16px;font-size:16.5px;color:var(--ink-2);max-width:44ch}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:12px;border:1px solid var(--line-2);background:var(--surface);font-weight:700;font-size:14px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s,background .18s,border-color .18s}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.btn:hover{background:var(--surface-2);transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+
+.hero-stage{position:relative;aspect-ratio:1/1;display:grid;place-items:center}
+.hero-art{position:absolute;inset:0;border-radius:32px;background:linear-gradient(160deg,var(--dark),var(--dark-2));display:grid;place-items:center;box-shadow:var(--shadow-lg);overflow:hidden}
+.hero-art::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 26% 18%,rgba(217,174,78,.28),transparent 58%)}
+.hero-art::after{content:"";position:absolute;inset:0;opacity:.5;background-image:repeating-linear-gradient(115deg,rgba(217,174,78,.05) 0 2px,transparent 2px 26px)}
+.tunic-art{width:48%;position:relative;color:var(--gold);animation:bob 6s ease-in-out infinite}
+.tunic-art .tunic-body{filter:drop-shadow(0 10px 28px rgba(0,0,0,.5))}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.badge-seal{position:absolute;right:-6px;bottom:-6px;width:104px;height:104px;color:var(--gold);filter:drop-shadow(0 6px 16px rgba(0,0,0,.35))}
+.badge-seal .badge-spin{transform-origin:60px 60px;animation:spin 20s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.badge-seal .badge-disc{fill:var(--dark)}
+
+/* ---------- marquee ---------- */
+.marquee{background:var(--dark);color:var(--dark-ink);overflow:hidden;border-block:1px solid rgba(217,174,78,.18)}
+.marquee-track{display:flex;width:max-content;gap:0;animation:marquee 26s linear infinite}
+.marquee-track span{display:inline-flex;align-items:center;gap:14px;padding:13px 0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding-right:28px}
+.marquee-track span.dot{color:var(--gold);padding-right:28px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- banner ---------- */
+.banner{display:flex;gap:10px;align-items:flex-start;padding:13px 16px;border-radius:12px;background:var(--accent-soft);font-size:13.5px;line-height:1.5;margin:0 0 28px}
+.banner svg{flex:none;width:18px;height:18px;margin-top:1px;color:var(--accent-hover)}
+
+/* ---------- section heads ---------- */
+.section{padding:64px 0;position:relative}
+.section-h{margin-bottom:30px;max-width:56ch}
+.section-h .eyebrow{margin-bottom:10px}
+.section-h h2{font-size:30px}
+.section-h p{color:var(--ink-2);margin-top:8px;font-size:15px}
+
+/* ---------- catalogue ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:22px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .28s cubic-bezier(.16,.8,.3,1),box-shadow .28s}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.card .ph{aspect-ratio:4/5;background:linear-gradient(160deg,var(--dark),var(--dark-2));display:grid;place-items:center;position:relative;overflow:hidden}
+.card .ph::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 72% 12%,rgba(217,174,78,.24),transparent 60%)}
+.card .ph svg{width:40%;position:relative;color:var(--gold);transition:transform .4s cubic-bezier(.16,.8,.3,1)}
+.card:hover .ph svg{transform:scale(1.06) translateY(-3px)}
+.card .ph img.real{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,.8,.3,1)}
+.card:hover .ph img.real{transform:scale(1.045)}
+.card .body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:9px;flex:1}
+.card h3{font-size:17.5px}
+.card p.desc{color:var(--ink-2);font-size:13.5px;flex:1}
+.card .price{font-family:var(--mono);font-weight:500;font-size:14.5px;color:var(--accent-hover);padding-top:8px;border-top:1px dashed var(--line-2)}
+.card .order{margin-top:2px;height:42px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface-2);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .18s,border-color .18s,color .18s}
+.card .order:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.card .order svg{width:15px;height:15px;transition:transform .18s}
+.card .order:hover svg{transform:translateX(2px)}
+.card .ph[data-act="lightbox"]{cursor:zoom-in}
+.ph-badge{position:absolute;top:10px;right:10px;background:rgba(21,18,11,.62);color:#fff;font:600 11.5px/1 var(--mono);padding:5px 8px;border-radius:20px;backdrop-filter:blur(2px)}
+.ph-play{position:absolute;inset:0;display:grid;place-items:center}
+.ph-play i{width:46px;height:46px;border-radius:50%;background:rgba(21,18,11,.55);backdrop-filter:blur(2px);display:grid;place-items:center;transition:transform .22s,background .22s}
+.card:hover .ph-play i{transform:scale(1.08);background:var(--accent)}
+.ph-play svg{width:18px;height:18px;color:#fff;margin-left:2px}
+.ph-play.corner{inset:auto 10px 10px auto}
+.ph-play.corner i{width:30px;height:30px}
+.ph-play.corner svg{width:13px;height:13px;margin-left:1px}
+
+/* ---------- vitrine (lightbox photos/vidéo) ---------- */
+.modal.lightbox{width:min(640px,100%);padding:16px;background:var(--dark)}
+.lightbox-stage{aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#000;display:grid;place-items:center}
+.lightbox-stage img,.lightbox-stage video{width:100%;height:100%;object-fit:contain;background:#000}
+.lightbox .icon-x{background:rgba(255,255,255,.12);color:#fff}
+.lightbox .icon-x:hover{background:rgba(255,255,255,.22)}
+.lightbox-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px}
+.lightbox-nav button{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center;flex:none}
+.lightbox-nav button:hover{background:rgba(255,255,255,.18)}
+.lightbox-nav svg{width:16px;height:16px}
+.lightbox-dots{display:flex;gap:6px}
+.lightbox-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35)}
+.lightbox-dots i.on{background:var(--gold)}
+
+/* ---------- features ---------- */
+.features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.feature{padding:6px 4px}
+.feature .ic{width:38px;height:38px;color:var(--accent-hover);margin-bottom:14px}
+.feature h3{font-size:15px;margin-bottom:6px}
+.feature p{color:var(--ink-2);font-size:13.5px}
+
+/* ---------- how it works ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;position:relative}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;position:relative;transition:transform .25s,box-shadow .25s}
+.step:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.step b.n{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent-hover);font-weight:700;font-family:var(--mono);font-size:13px;margin-bottom:14px}
+.step h3{font-size:16px;margin-bottom:7px}
+.step p{color:var(--ink-2);font-size:13.5px}
+
+/* ---------- CTA band ---------- */
+.cta-band{border-radius:28px;background:linear-gradient(155deg,var(--dark),var(--dark-2));color:var(--dark-strong);padding:44px 36px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.cta-band::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% -20%,rgba(217,174,78,.28),transparent 60%)}
+.cta-band>*{position:relative}
+.cta-band h2{color:#fff;font-size:28px}
+.cta-band p{color:var(--dark-ink);margin-top:10px;max-width:48ch;margin-inline:auto}
+.cta-band .cta{display:flex;justify-content:center;margin-top:24px}
+.cta-band .btn.primary{background:var(--gold);border-color:var(--gold);color:#241703}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:30px 0 calc(30px + env(safe-area-inset-bottom,0px));background:var(--surface-2)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+footer .brand small{color:var(--ink-3)}
+.rule-mark{display:flex;align-items:center;gap:10px;color:var(--ink-3);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
+.rule-mark svg{width:13px;height:13px;color:var(--accent)}
+
+/* ---------- floating WhatsApp fab ---------- */
+.fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;display:inline-flex;align-items:center;gap:9px;height:52px;padding:0 18px 0 16px;border-radius:999px;border:0;background:var(--wa);color:#04220e;font-weight:700;font-size:13.5px;box-shadow:0 10px 28px rgba(37,211,102,.4);opacity:0;transform:translateY(14px) scale(.94);pointer-events:none;transition:opacity .3s,transform .3s}
+.fab.show{opacity:1;transform:none;pointer-events:auto}
+.fab svg{width:22px;height:22px;flex:none}
+.fab .fab-ring{position:absolute;inset:0;border-radius:999px;border:2px solid var(--wa);animation:ring 2.2s ease-out infinite}
+@keyframes ring{0%{opacity:.6;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+
+/* ---------- modal (commande) ---------- */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:50;animation:fade .18s ease-out}
+.modal-wrap{position:fixed;inset:0;z-index:51;display:grid;place-items:center;padding:16px}
+.modal{width:min(480px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:var(--surface);border-radius:22px;box-shadow:var(--shadow-lg);padding:26px;position:relative;animation:pop .2s cubic-bezier(.16,.8,.3,1)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.modal h2{font-size:21px;margin-bottom:5px}
+.modal p.sub{color:var(--ink-2);font-size:13.5px;margin-bottom:18px}
+.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fld span{font-weight:600;font-size:12.5px;color:var(--ink-2)}
+.fld input,.fld select,.fld textarea{height:44px;padding:0 13px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.fld textarea{height:auto;min-height:76px;padding:10px 13px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.modal .r{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+.icon-x{width:36px;height:36px;border-radius:9px;border:0;background:none;display:grid;place-items:center;color:var(--ink-2);position:absolute;top:14px;right:14px}
+.icon-x:hover{background:var(--surface-2)}
+
+@media (max-width:820px){
+  .hero .wrap{grid-template-columns:1fr}
+  .hero-stage{width:100%;max-width:300px;margin:0 auto}
+  .steps{grid-template-columns:1fr}
+  .features{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cta-band{padding:36px 22px}
+}
+@media (max-width:520px){
+  .hero{padding:44px 0 36px}
+  .hero h1{font-size:32px}
+  .brand small{display:none}
+  .section{padding:48px 0}
+  .cta-band h2{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand"><img src="logo.png" alt=""><div><b>Men's Tunics</b><small>Tuniques sur mesure</small></div></div>
+  <button class="btn-wa" data-act="wa-general"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.1c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.1.11-1.78-.11-.41-.13-.94-.31-1.61-.6-2.85-1.23-4.7-4.1-4.85-4.29-.14-.19-1.16-1.54-1.16-2.93s.72-2.08.98-2.36c.25-.28.55-.35.74-.35h.53c.17 0 .4-.06.62.48.24.58.8 2 .87 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.28.72 1.19 1.55 1.93 1.06.95 1.96 1.24 2.24 1.38.28.14.44.12.6-.07.17-.19.7-.81.89-1.09.19-.28.37-.23.62-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.68-.17 1.36Z"/></svg><span>Écrire sur WhatsApp</span></button>
+</div></div>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="eyebrow">Men's Tunics — Atelier de confection</span>
+    <h1>Des tuniques taillées pour vous,<br><em>cousues avec soin.</em></h1>
+    <p class="lede">Choisissez un modèle dans notre catalogue et commandez directement sur WhatsApp : on prend vos mesures, on confirme le prix, et on vous livre.</p>
+    <div class="cta">
+      <a class="btn primary" href="#catalogue"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Voir le catalogue</a>
+      <button class="btn" data-act="wa-general"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.38 8.5 8.5 0 0 1-4.13-1.07L3 20l1.19-5.37A8.4 8.4 0 0 1 12.5 3a8.38 8.38 0 0 1 8.5 8.5Z"/></svg>Poser une question</button>
+    </div>
+  </div>
+  <div class="hero-stage">
+    <div class="hero-art">
+      <svg class="tunic-art" viewBox="0 0 200 260" aria-hidden="true">
+        <path class="tunic-body" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="M100 18
+          C 91 18 84 24 82 32
+          C 64 35 58 39 58 39
+          C 39 46 17 71 15 98
+          C 14 110 19 119 29 124
+          C 35 101 46 84 63 73
+          L 67 188
+          C 61 209 45 229 31 247
+          C 62 256 138 256 169 247
+          C 155 229 139 209 133 188
+          L 137 73
+          C 154 84 165 101 171 124
+          C 181 119 186 110 185 98
+          C 183 71 161 46 142 39
+          C 142 39 136 35 118 32
+          C 116 24 109 18 100 18 Z"/>
+        <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M83 33 C 90 42 110 42 117 33"/>
+        <path stroke="currentColor" stroke-width="1.3" stroke-linecap="round" d="M100 40 L100 100"/>
+        <g stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" fill="none">
+          <path d="M91 50 L100 46 L109 50 L100 54 Z"/>
+          <path d="M91 67 L100 63 L109 67 L100 71 Z"/>
+          <path d="M91 84 L100 80 L109 84 L100 88 Z"/>
+        </g>
+        <path fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" d="M40 210 C 55 218 145 218 160 210" opacity=".6"/>
+      </svg>
+    </div>
+    <svg class="badge-seal" viewBox="0 0 120 120" aria-hidden="true">
+      <defs><path id="badge-circle" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs>
+      <circle class="badge-disc" cx="60" cy="60" r="58"/>
+      <g class="badge-spin">
+        <text font-family="'DM Mono',monospace" font-size="9.3" letter-spacing="2.3" fill="currentColor">
+          <textPath href="#badge-circle" startOffset="0%">SUR MESURE • FAIT MAIN • SUR MESURE • FAIT MAIN •</textPath>
+        </text>
+      </g>
+      <circle cx="60" cy="60" r="15" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path d="M60 51 L63 57 L69 60 L63 63 L60 69 L57 63 L51 60 L57 57 Z" fill="currentColor"/>
+    </svg>
+  </div>
+</div></section>
+
+<div class="marquee" aria-hidden="true"><div class="marquee-track">
+  <span>Sur mesure</span><span class="dot">✦</span><span>Cousu avec soin</span><span class="dot">✦</span><span>Choix du tissu</span><span class="dot">✦</span><span>Remis en main propre</span><span class="dot">✦</span>
+  <span>Sur mesure</span><span class="dot">✦</span><span>Cousu avec soin</span><span class="dot">✦</span><span>Choix du tissu</span><span class="dot">✦</span><span>Remis en main propre</span><span class="dot">✦</span>
+</div></div>
+
+<section class="section" id="catalogue"><div class="wrap">
+  <div id="example-banner"></div>
+  <div class="section-h reveal"><span class="eyebrow">Le catalogue</span><h2>Chaque tunique, une pièce sur mesure</h2><p>Repérez le modèle qui vous plaît — coupe, broderie, longueur — et laissez-nous l'ajuster à vos mesures.</p></div>
+  <div class="grid reveal-stagger reveal" id="grid"></div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="section-h reveal"><span class="eyebrow">Pourquoi nous</span><h2>Une confection pensée pour durer</h2></div>
+  <div class="features reveal-stagger reveal">
+    <div class="feature" style="--i:0"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 5 5.5 6.5 9 9 8v13h6V8l2.5 1L19 5.5 15 3a3.2 3.2 0 0 1-6 0Z"/></svg><h3>Sur mesure</h3><p>Vos mesures sont prises et gardées pour chaque nouvelle commande.</p></div>
+    <div class="feature" style="--i:1"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg><h3>Tissus choisis</h3><p>Vous validez le tissu et la couleur avant que la confection commence.</p></div>
+    <div class="feature" style="--i:2"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><h3>Retouches incluses</h3><p>Un ajustement ne convient pas ? On le reprend avec vous.</p></div>
+    <div class="feature" style="--i:3"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.38 8.5 8.5 0 0 1-4.13-1.07L3 20l1.19-5.37A8.4 8.4 0 0 1 12.5 3a8.38 8.38 0 0 1 8.5 8.5Z"/></svg><h3>Suivi sur WhatsApp</h3><p>De la commande à la livraison, tout se passe dans une seule conversation.</p></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="section-h reveal"><span class="eyebrow">Comment commander</span><h2>Trois étapes, sur WhatsApp</h2><p>Pas de compte à créer, pas de paiement en ligne — juste une conversation.</p></div>
+  <div class="steps reveal-stagger reveal">
+    <div class="step" style="--i:0"><b class="n">1</b><h3>Choisissez un modèle</h3><p>Parcourez le catalogue et repérez celui qui vous plaît (ou décrivez-nous votre idée).</p></div>
+    <div class="step" style="--i:1"><b class="n">2</b><h3>Envoyez votre demande</h3><p>Remplissez le petit formulaire : il prépare un message WhatsApp avec vos coordonnées, prêt à envoyer.</p></div>
+    <div class="step" style="--i:2"><b class="n">3</b><h3>On finalise ensemble</h3><p>On confirme le prix, on prend vos mesures et la date de livraison, directement dans la conversation.</p></div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <div class="cta-band reveal">
+    <h2>Une idée en tête ? Décrivez-la nous.</h2>
+    <p>Modèle personnalisé, tissu que vous avez déjà, délai particulier — écrivez-nous directement, sans détour.</p>
+    <div class="cta"><button class="btn primary" data-act="wa-general"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.38 8.5 8.5 0 0 1-4.13-1.07L3 20l1.19-5.37A8.4 8.4 0 0 1 12.5 3a8.38 8.38 0 0 1 8.5 8.5Z"/></svg>Discuter sur WhatsApp</button></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="brand"><div><b style="font-family:var(--serif);font-size:15px">Men's Tunics</b><small>Commandes et contact sur WhatsApp</small></div></div>
+  <span class="rule-mark"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 14 10 22 12 14 14 12 22 10 14 2 12 10 10Z"/></svg>Sur mesure, cousu avec soin</span>
+  <span>© <span id="year"></span> Men's Tunics · <a href="privacy.html">Confidentialité</a></span>
+</div></footer>
+
+<button class="fab" id="fab" data-act="wa-general" aria-label="Écrire sur WhatsApp">
+  <span class="fab-ring" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm5.8 14.1c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.1.11-1.78-.11-.41-.13-.94-.31-1.61-.6-2.85-1.23-4.7-4.1-4.85-4.29-.14-.19-1.16-1.54-1.16-2.93s.72-2.08.98-2.36c.25-.28.55-.35.74-.35h.53c.17 0 .4-.06.62.48.24.58.8 2 .87 2.14.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.28.72 1.19 1.55 1.93 1.06.95 1.96 1.24 2.24 1.38.28.14.44.12.6-.07.17-.19.7-.81.89-1.09.19-.28.37-.23.62-.14.25.09 1.6.75 1.87.89.28.14.46.21.53.32.07.12.07.68-.17 1.36Z"/></svg>
+  <span>WhatsApp</span>
+</button>
+
+<div id="modal-root"></div>
+
+<script>
+(async function(){
+'use strict';
+// Le numéro WhatsApp de la boutique : pour le changer, modifiez cette seule
+// ligne directement dans l'éditeur de fichier de GitHub (index.html), sans
+// rien reconstruire.
+const WHATSAPP = "22392854577"; // +223 92 85 45 77, sans le "+" (format wa.me)
+
+// Modèles de secours, affichés uniquement si "modeles_synced.json" est
+// introuvable (site tout juste déposé, ou ouvert en local par fichier).
+// Le vrai catalogue vit dans modeles_synced.json, à côté de ce fichier :
+// il suffit de le remplacer (Paramètres > Exporter le catalogue dans
+// l'application, puis déposer le fichier téléchargé sur GitHub) — cette
+// page se met à jour toute seule au prochain chargement, sans rien
+// reconstruire.
+const FALLBACK_MODELES = [
+  {"id": "MOD-001", "nom": "Tunique brodée classique (exemple)", "description": "Col rond brodé, manches longues, coupe ample.",
+   "photos": [], "video": "", "prix": [45000, 55000, 65000, 0]},
+  {"id": "MOD-002", "nom": "Tunique simple (exemple)", "description": "Coupe droite, sans broderie, finitions sobres.",
+   "photos": [], "video": "", "prix": [30000, 35000, 0, 0]}
+];
+let MODELES = FALLBACK_MODELES;
+try {
+  const res = await fetch('modeles_synced.json', { cache: 'no-store' });
+  if (res.ok) {
+    const data = await res.json();
+    if (Array.isArray(data) && data.length) MODELES = data;
+  }
+} catch (e) { /* pas de réseau, fichier absent, ou ouvert en local (file://) : on garde le catalogue de secours */ }
+const HAS_EXAMPLES = MODELES.some((m) => (m.nom || '').includes('(exemple)'));
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (n) => Math.round(n).toLocaleString('fr-FR').replace(/ | /g, ' ');
+const priceLine = (prix) => {
+  const p = (prix || []).filter((x) => x > 0);
+  if (!p.length) return 'Prix sur demande';
+  const min = Math.min(...p), max = Math.max(...p);
+  return min === max ? `${fmt(min)} FCFA` : `de ${fmt(min)} à ${fmt(max)} FCFA`;
+};
+const tunicSvg = `<svg viewBox="0 0 200 260" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+  <path d="M100 18 C 91 18 84 24 82 32 C 64 35 58 39 58 39 C 39 46 17 71 15 98 C 14 110 19 119 29 124 C 35 101 46 84 63 73 L 67 188 C 61 209 45 229 31 247 C 62 256 138 256 169 247 C 155 229 139 209 133 188 L 137 73 C 154 84 165 101 171 124 C 181 119 186 110 185 98 C 183 71 161 46 142 39 C 142 39 136 35 118 32 C 116 24 109 18 100 18 Z"/>
+  <path stroke-width="1.6" d="M83 33 C 90 42 110 42 117 33"/>
+</svg>`;
+
+function waLink(text){ return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`; }
+function openWa(text){ window.open(waLink(text), '_blank', 'noopener'); }
+
+document.getElementById('example-banner').innerHTML = HAS_EXAMPLES
+  ? `<div class="banner">${infoIcon()}<span><b>Aperçu :</b> ce catalogue affiche des modèles d'exemple. Ajoutez vos vrais modèles (nom, description, photos, vidéo, prix) depuis Paramètres dans l'application de gestion, exportez le catalogue, puis régénérez cette page avant de la partager à vos clients.</span></div>`
+  : '';
+function infoIcon(){ return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>`; }
+function playIcon(){ return `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg>`; }
+function chevIcon(dir){ return dir === 'l' ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>` : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`; }
+const xIcon = () => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>`;
+const photosOf = (m) => (m.photos && m.photos.length ? m.photos : (m.photo ? [m.photo] : []));
+
+document.getElementById('grid').innerHTML = MODELES.map((m, i) => {
+  const photos = photosOf(m);
+  const hasMedia = photos.length || m.video;
+  return `
+  <article class="card" style="--i:${i}">
+    <div class="ph" ${hasMedia ? `data-act="lightbox" data-id="${esc(m.id)}"` : ''}>${photos[0] ? `<img class="real" src="${esc(photos[0])}" alt="${esc(m.nom)}">` : tunicSvg}
+      ${photos.length > 1 ? `<span class="ph-badge">+${photos.length - 1}</span>` : ''}
+      ${m.video ? `<span class="ph-play${photos.length ? ' corner' : ''}"><i>${playIcon()}</i></span>` : ''}
+    </div>
+    <div class="body">
+      <h3>${esc(m.nom)}</h3>
+      <p class="desc">${esc(m.description || '')}</p>
+      <p class="price num">${priceLine(m.prix)}</p>
+      <button class="order" data-act="order" data-id="${esc(m.id)}">Commander ce modèle<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </article>`;
+}).join('');
+
+/* ----- galerie photos/vidéo (lightbox) ----- */
+let lbItems = [], lbIdx = 0;
+function openLightbox(modeleId){
+  const m = MODELES.find((x) => x.id === modeleId);
+  if (!m) return;
+  lbItems = [...photosOf(m).map((src) => ({ type: 'img', src })), ...(m.video ? [{ type: 'video', src: m.video }] : [])];
+  if (!lbItems.length) return;
+  lbIdx = 0;
+  renderLightbox();
+}
+function renderLightbox(){
+  const it = lbItems[lbIdx];
+  const stage = it.type === 'video'
+    ? `<video src="${esc(it.src)}" controls autoplay playsinline></video>`
+    : `<img src="${esc(it.src)}" alt="">`;
+  document.getElementById('modal-root').innerHTML = `
+    <div class="scrim" data-act="close-modal"></div>
+    <div class="modal-wrap"><div class="modal lightbox" role="dialog" aria-modal="true" aria-label="Photos et vidéo du modèle">
+      <button class="icon-x" data-act="close-modal" aria-label="Fermer">${xIcon()}</button>
+      <div class="lightbox-stage">${stage}</div>
+      ${lbItems.length > 1 ? `<div class="lightbox-nav">
+        <button type="button" data-act="lb-prev" aria-label="Précédent">${chevIcon('l')}</button>
+        <span class="lightbox-dots">${lbItems.map((_, i) => `<i class="${i === lbIdx ? 'on' : ''}"></i>`).join('')}</span>
+        <button type="button" data-act="lb-next" aria-label="Suivant">${chevIcon('r')}</button>
+      </div>` : ''}
+    </div></div>`;
+}
+
+function openOrderModal(modeleId){
+  const m = MODELES.find((x) => x.id === modeleId);
+  const opts = `<option value="">— À discuter —</option>` + MODELES.map((x) => `<option value="${esc(x.id)}" ${x.id === modeleId ? 'selected' : ''}>${esc(x.nom)}</option>`).join('');
+  document.getElementById('modal-root').innerHTML = `
+    <div class="scrim" data-act="close-modal"></div>
+    <div class="modal-wrap"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="om-title">
+      <button class="icon-x" data-act="close-modal" aria-label="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <h2 id="om-title">Commander</h2>
+      <p class="sub">Ces informations préparent votre message WhatsApp — rien n'est envoyé avant que vous cliquiez sur « Envoyer sur WhatsApp ».</p>
+      <div class="fld"><span>Votre nom *</span><input id="om-nom" required placeholder="Votre nom"></div>
+      <div class="fld"><span>Votre téléphone *</span><input id="om-tel" required placeholder="Ex. 07 00 00 00 00" inputmode="tel"></div>
+      <div class="fld"><span>Modèle souhaité</span><select id="om-modele">${opts}</select></div>
+      <div class="fld"><span>Message (mesures, couleur, précisions…)</span><textarea id="om-msg" placeholder="Facultatif"></textarea></div>
+      <div class="r"><button class="btn" data-act="close-modal">Annuler</button><button class="btn primary" data-act="send-order"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Z"/></svg>Envoyer sur WhatsApp</button></div>
+    </div></div>`;
+  document.getElementById('om-nom').focus();
+}
+function closeModal(){ document.getElementById('modal-root').innerHTML = ''; }
+
+document.addEventListener('click', (ev) => {
+  const el = ev.target.closest('[data-act]'); if (!el) return;
+  const act = el.dataset.act;
+  if (act === 'wa-general') openWa("Bonjour Men's Tunics ! Je souhaite avoir des renseignements sur vos tuniques.");
+  else if (act === 'order') openOrderModal(el.dataset.id);
+  else if (act === 'lightbox') openLightbox(el.dataset.id);
+  else if (act === 'lb-prev') { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; renderLightbox(); }
+  else if (act === 'lb-next') { lbIdx = (lbIdx + 1) % lbItems.length; renderLightbox(); }
+  else if (act === 'close-modal') closeModal();
+  else if (act === 'send-order') {
+    const nom = document.getElementById('om-nom').value.trim();
+    const tel = document.getElementById('om-tel').value.trim();
+    if (!nom || !tel) { (document.getElementById(nom ? 'om-tel' : 'om-nom')).focus(); return; }
+    const modeleId = document.getElementById('om-modele').value;
+    const modele = MODELES.find((x) => x.id === modeleId);
+    const msg = document.getElementById('om-msg').value.trim();
+    const lines = [
+      "Bonjour Men's Tunics ! Je souhaite passer une commande.",
+      `Modèle : ${modele ? modele.nom.replace(' (exemple)', '') : 'à discuter'}`,
+      `Nom : ${nom}`,
+      `Téléphone : ${tel}`,
+      msg ? `Message : ${msg}` : null
+    ].filter(Boolean);
+    openWa(lines.join('\n'));
+    closeModal();
+  }
+});
+document.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape') closeModal();
+  else if (lbItems.length > 1 && document.querySelector('.lightbox')) {
+    if (ev.key === 'ArrowLeft') { lbIdx = (lbIdx - 1 + lbItems.length) % lbItems.length; renderLightbox(); }
+    else if (ev.key === 'ArrowRight') { lbIdx = (lbIdx + 1) % lbItems.length; renderLightbox(); }
+  }
+});
+
+/* reveal-on-scroll : progressive enhancement, everything is already visible without JS */
+try {
+  const targets = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach((t) => io.observe(t));
+  } else {
+    targets.forEach((t) => t.classList.add('is-visible'));
+  }
+} catch (e) { document.querySelectorAll('.reveal').forEach((t) => t.classList.add('is-visible')); }
+
+/* floating WhatsApp button appears once past the hero */
+try {
+  const fab = document.getElementById('fab');
+  const hero = document.querySelector('.hero');
+  if (fab && hero && 'IntersectionObserver' in window) {
+    const io2 = new IntersectionObserver((entries) => {
+      entries.forEach((e) => fab.classList.toggle('show', !e.isIntersecting));
+    }, { threshold: 0 });
+    io2.observe(hero);
+  } else if (fab) { fab.classList.add('show'); }
+} catch (e) { /* ignore */ }
+})();
+</script>
+</body>
+</html>

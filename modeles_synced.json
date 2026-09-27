@@ -1,0 +1,4 @@
+[
+ {"id": "MOD-001", "nom": "Tunique brodée classique (exemple)", "description": "Col rond brodé, manches longues, coupe ample.", "photos": [], "video": "", "prix": [45000, 55000, 65000, 0]},
+ {"id": "MOD-002", "nom": "Tunique simple (exemple)", "description": "Coupe droite, sans broderie, finitions sobres.", "photos": [], "video": "", "prix": [30000, 35000, 0, 0]}
+]
