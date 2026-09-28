@@ -405,6 +405,11 @@ function makeXlsx(sheets) {
    (voir le guide), il suffit d'éditer config.js directement sur GitHub — sans
    rien réinstaller ni reconstruire. */
 const DRIVE_CLIENT_ID = (typeof window !== 'undefined' && window.DRIVE_CLIENT_ID) || 'REPLACE_WITH_YOUR_CLIENT_ID.apps.googleusercontent.com';
+/* Clé Picker : uniquement nécessaire si un tailleur rejoint l'atelier avec SON
+   PROPRE compte Google (voir « Rejoindre un atelier existant » plus bas) et
+   vit elle aussi dans config.js. Si tout le monde partage un seul compte
+   Google, cette clé peut rester telle quelle — elle ne sert jamais. */
+const DRIVE_PICKER_API_KEY = (typeof window !== 'undefined' && window.DRIVE_PICKER_API_KEY) || '';
 const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 const DRIVE_FILE_NAME = 'Men’s Tunics — Données.json';
 const ROLE_KEY = 'mens-tunics-role-device';
@@ -418,6 +423,8 @@ const drive = {
   fileId: null,
   signedIn: false,
   needsReconnect: false,
+  needsFileChoice: false,
+  pickerBusy: false,
   hold: false,
   busy: false,
   at: 0,
@@ -513,11 +520,23 @@ async function reconnectGoogle() {
 
 async function afterSignIn() {
   store.role = loadRole();
-  await pickOrCreateDriveFile();
+  await resolveDriveFile();
+  drive.hold = true; render();
+  if (drive.fileId) {
+    await reconcileDrive(false);
+    startDrivePolling();
+  }
+  drive.hold = false;
+  render();
+}
+
+/* Après une sélection réussie via le sélecteur Google Drive (voir plus bas) :
+   même suite que juste après la connexion, mais sans re-résoudre le fichier. */
+async function afterFileResolved() {
   drive.hold = true; render();
   await reconcileDrive(false);
-  drive.hold = false;
   startDrivePolling();
+  drive.hold = false;
   render();
 }
 
@@ -530,25 +549,100 @@ async function driveFetch(url, opts) {
   if (res.status === 401) { drive.needsReconnect = true; drive.signedIn = false; scheduleRender(); throw new Error('unauthorized'); }
   return res;
 }
-async function pickOrCreateDriveFile() {
-  if (drive.fileId) return drive.fileId;
-  try { const cached = localStorage.getItem('mens-tunics-drive-file-id'); if (cached) { drive.fileId = cached; return cached; } } catch (e) { /* ignore */ }
+function rememberDriveFile(id) {
+  drive.fileId = id;
+  try { localStorage.setItem('mens-tunics-drive-file-id', id); } catch (e) { /* ignore */ }
+}
+
+/* Cherche, SANS jamais créer, un fichier déjà créé par l'app sous CE compte
+   Google (drive.file ne laisse voir que ça). Renvoie son id, ou null si ce
+   compte n'a encore aucune donnée Men's Tunics. */
+async function findDriveFileByName() {
   const q = encodeURIComponent(`name='${DRIVE_FILE_NAME.replace(/'/g, "\\'")}' and trashed=false`);
   const res = await driveFetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=drive&fields=files(id,name)`, {});
   const json = await res.json();
-  if (json.files && json.files.length) { drive.fileId = json.files[0].id; }
-  else {
-    const created = await driveFetch('https://www.googleapis.com/drive/v3/files', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: DRIVE_FILE_NAME })
-    });
-    const cjson = await created.json();
-    drive.fileId = cjson.id;
-    await driveFetch(`https://www.googleapis.com/upload/drive/v3/files/${drive.fileId}?uploadType=media`, {
-      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(backupObj())
-    });
-  }
-  try { localStorage.setItem('mens-tunics-drive-file-id', drive.fileId); } catch (e) { /* ignore */ }
+  return (json.files && json.files.length) ? json.files[0].id : null;
+}
+
+async function createDriveFile() {
+  const created = await driveFetch('https://www.googleapis.com/drive/v3/files', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: DRIVE_FILE_NAME })
+  });
+  const cjson = await created.json();
+  rememberDriveFile(cjson.id);
+  await driveFetch(`https://www.googleapis.com/upload/drive/v3/files/${drive.fileId}?uploadType=media`, {
+    method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(backupObj())
+  });
   return drive.fileId;
+}
+
+/* Point d'entrée après connexion : réutilise le fichier déjà connu sur CET
+   APPAREIL, sinon cherche un fichier existant sous ce compte. Si rien n'est
+   trouvé, on ne crée JAMAIS de fichier en silence (ça isolerait un tailleur
+   qui rejoint un atelier existant avec son propre compte) : on affiche un
+   choix explicite (voir fileChoiceView) — la création reste un clic conscient. */
+async function resolveDriveFile() {
+  if (drive.fileId) return drive.fileId;
+  try { const cached = localStorage.getItem('mens-tunics-drive-file-id'); if (cached) { drive.fileId = cached; return cached; } } catch (e) { /* ignore */ }
+  const found = await findDriveFileByName();
+  if (found) { rememberDriveFile(found); return found; }
+  drive.needsFileChoice = true;
+  return null;
+}
+
+async function chooseCreateDriveFile() {
+  drive.needsFileChoice = false;
+  drive.hold = true; render();
+  await createDriveFile();
+  drive.hold = false;
+  await afterFileResolved();
+}
+
+/* ---------- sélecteur Google Drive (rejoindre un atelier existant avec son propre compte) ---------- */
+function loadPickerLib() {
+  return new Promise((resolve) => {
+    if (window.google && window.google.picker) { resolve(true); return; }
+    const s = document.createElement('script');
+    s.src = 'https://apis.google.com/js/api.js';
+    s.async = true; s.defer = true;
+    s.onload = () => { try { gapi.load('picker', () => resolve(true)); } catch (e) { resolve(false); } };
+    s.onerror = () => resolve(false);
+    document.head.appendChild(s);
+  });
+}
+
+async function chooseJoinExistingAtelier() {
+  if (!DRIVE_PICKER_API_KEY) {
+    toast("La clé du sélecteur Google Drive n'est pas configurée (voir le guide, config.js).");
+    return;
+  }
+  drive.pickerBusy = true; render();
+  const ok = await loadPickerLib();
+  drive.pickerBusy = false; render();
+  if (!ok) { toast("Impossible d'ouvrir le sélecteur Google Drive."); return; }
+  /* Pas de filtre par type de fichier : le fichier créé via l'API Drive n'a
+     pas toujours le type MIME "application/json" enregistré côté Google
+     selon la façon dont il a été créé, et un filtre trop strict risquerait
+     de le rendre invisible dans le sélecteur. Le nom du fichier suffit à
+     le reconnaître ("Men's Tunics — Données.json"), et l'onglet "Partagés
+     avec moi" du sélecteur (inclus par défaut) le retrouve de toute façon. */
+  const view = new google.picker.DocsView(google.picker.ViewId.DOCS)
+    .setIncludeFolders(false)
+    .setSelectFolderEnabled(false);
+  const picker = new google.picker.PickerBuilder()
+    .addView(view)
+    .setOAuthToken(drive.accessToken)
+    .setDeveloperKey(DRIVE_PICKER_API_KEY)
+    .setTitle("Choisis le fichier de données partagé par l'atelier")
+    .setCallback(async (data) => {
+      if (data && data.action === google.picker.Action.PICKED && data.docs && data.docs[0]) {
+        drive.needsFileChoice = false;
+        rememberDriveFile(data.docs[0].id);
+        await afterFileResolved();
+      }
+    })
+    .build();
+  picker.setVisible(true);
 }
 
 async function readDriveFile() {
@@ -603,7 +697,7 @@ function startDrivePolling() {
 function signOutGoogle() {
   clearInterval(drive.pollTimer); clearTimeout(drive._refreshTimer);
   if (drive.accessToken && window.google) { try { google.accounts.oauth2.revoke(drive.accessToken, () => {}); } catch (e) { /* ignore */ } }
-  drive.signedIn = false; drive.accessToken = null; drive.fileId = null;
+  drive.signedIn = false; drive.accessToken = null; drive.fileId = null; drive.needsFileChoice = false;
   try { localStorage.removeItem('mens-tunics-drive-file-id'); } catch (e) { /* ignore */ }
   store.ready = false; render();
 }
@@ -630,6 +724,19 @@ function roleChoiceView() {
         <button class="btn primary lg" data-act="role-choice" data-role="admin">Administrateur / Administratrice</button>
         <button class="btn lg" data-act="role-choice" data-role="tailleur">Tailleur</button>
       </div>
+    </div>
+  </div>`;
+}
+function fileChoiceView() {
+  return `<div class="gate">
+    <div class="gate-card">
+      <h2>Aucune donnée trouvée sous ce compte</h2>
+      <p class="muted">Ce compte Google n'a encore aucune donnée Men's Tunics. Est-ce la toute première fois que l'atelier utilise l'application, ou rejoins-tu un atelier déjà en place avec ton propre compte Google ?</p>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+        <button class="btn primary lg" data-act="drive-create">Première utilisation : créer les données de l'atelier</button>
+        <button class="btn lg" data-act="drive-join" ${drive.pickerBusy ? 'disabled' : ''}>${drive.pickerBusy ? 'Ouverture…' : "Rejoindre un atelier existant (fichier déjà partagé avec moi)"}</button>
+      </div>
+      <p class="muted" style="margin-top:14px;font-size:12.5px">Pour rejoindre un atelier existant, le gérant doit d'abord avoir partagé le fichier de données avec ton adresse Gmail depuis son Google Drive (clic droit sur le fichier → Partager).</p>
     </div>
   </div>`;
 }
@@ -1875,6 +1982,7 @@ function loadingView() { return `<div class="skel" aria-busy="true" aria-label="
 function gateState() {
   if (!drive.signedIn) return 'signin';
   if (!store.role) return 'role';
+  if (drive.needsFileChoice && !drive.fileId) return 'file-choice';
   return null;
 }
 function render() {
@@ -1886,7 +1994,7 @@ function render() {
   if (gate) {
     $('#nav').innerHTML = ''; $('#tabbar').innerHTML = ''; $('#drawer').innerHTML = '';
     const sync = $('#sync'); sync.className = 'sync'; sync.innerHTML = `<i></i>Connexion…`;
-    $('#main').innerHTML = gate === 'signin' ? signInView() : roleChoiceView();
+    $('#main').innerHTML = gate === 'signin' ? signInView() : gate === 'role' ? roleChoiceView() : fileChoiceView();
     ['rule-box', 'topbar-params', 'fab'].forEach((id) => { const el = document.getElementById(id); if (el) el.hidden = true; });
     return;
   }
@@ -1941,6 +2049,8 @@ document.addEventListener('click', async (ev) => {
     case 'google-signin': signInGoogle(); break;
     case 'google-reconnect': reconnectGoogle(); break;
     case 'role-choice': chooseRole(el.dataset.role); break;
+    case 'drive-create': chooseCreateDriveFile(); break;
+    case 'drive-join': chooseJoinExistingAtelier(); break;
     case 'role-change': store.role = ''; try { localStorage.removeItem(ROLE_KEY); } catch (e2) { /* ignore */ } render(); break;
     case 'google-signout': confirmBox({ title: 'Se déconnecter ?', label: 'Se déconnecter', text: 'Vous pourrez vous reconnecter avec le même compte Google à tout moment.', onYes: () => { closeModal(); signOutGoogle(); } }); break;
     case 'choice-a': case 'choice-b': { const c = formSpec && formSpec.choice; closeModal(); if (c) (el.dataset.act === 'choice-a' ? c.a : c.b)(); break; }
